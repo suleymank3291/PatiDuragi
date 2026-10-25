@@ -16,7 +16,8 @@ toplayarak gönüllüler arasında koordinasyon sağlamayı amaçlar.
 ## Teknolojiler
 
 - ASP.NET Core 10 — Razor Pages
-- Bootstrap 5 (mobil uyumlu arayüz)
+- Bootstrap 5 ve Bootstrap Icons (mobil uyumlu arayüz)
+- Leaflet + OpenStreetMap (harici harita servisi)
 - PostgreSQL + Entity Framework Core (3. haftadan itibaren)
 
 ## Çalıştırma
@@ -43,14 +44,15 @@ PatiDuragi/
 └── Pages/
     ├── Bolgeler/  Bölge listesi ve detay sayfası
     ├── Noktalar/  Besleme noktası listesi ve detay sayfası
-    └── Shared/    Ortak sayfa düzeni (_Layout) ve parçalar
+    └── Shared/    Ortak sayfa düzeni (_Layout) ve parçalar (_Harita, _TurRozeti, _OnayDurumu)
+wwwroot/js/harita.js   Noktaları haritada işaretleyen fonksiyon
 ```
 
 ## Haftalık ilerleme
 
 | Hafta | Lider | Durum |
 |---|---|---|
-| 1 | Süleyman Kılınç | Proje iskeleti, ortak düzen ve mobil menü, ana sayfa, bölge ve besleme noktası listeleme/detay sayfaları |
+| 1 | Süleyman Kılınç | Proje iskeleti, ortak düzen ve mobil menü, ana sayfa, bölge ve besleme noktası listeleme/detay sayfaları, noktaların OpenStreetMap haritasında gösterimi |
 | 2 | Selman Yasin Zemheri | — |
 | 3 | Süleyman Kılınç | — |
 | 4 | Selman Yasin Zemheri | — |
