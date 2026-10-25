@@ -1,10 +1,43 @@
-﻿@page
+@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Ana Sayfa";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="py-4">
+    <h1 class="display-6">Pati Durağı</h1>
+    <p class="lead">
+        Mahallelerdeki sokak hayvanı besleme noktalarını tek yerde topluyoruz.
+        Hangi noktanın nerede olduğunu görün, gönüllüler arasında koordinasyonu kolaylaştırın.
+    </p>
 </div>
+
+<div class="row g-3 mb-4">
+    <div class="col-12 col-md-4">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <div class="display-6">@Model.BolgeSayisi</div>
+                <div class="text-muted">Bölge</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-4">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <div class="display-6">@Model.NoktaSayisi</div>
+                <div class="text-muted">Besleme noktası</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-4">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <div class="display-6">@Model.OnayBekleyenSayisi</div>
+                <div class="text-muted">Onay bekleyen nokta</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a asp-page="/Noktalar/Index" class="btn btn-success me-2 mb-2">Besleme noktalarını gör</a>
+<a asp-page="/Bolgeler/Index" class="btn btn-outline-success mb-2">Bölgeleri gör</a>
