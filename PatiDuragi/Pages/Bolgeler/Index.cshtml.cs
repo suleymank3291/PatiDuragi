@@ -12,5 +12,10 @@ namespace PatiDuragi.Pages.Bolgeler
         {
             Bolgeler = BolgeDeposu.Bolgeler;
         }
+
+        public int NoktaSayisi(int bolgeId)
+        {
+            return NoktaDeposu.Noktalar.Count(n => n.BolgeId == bolgeId);
+        }
     }
 }

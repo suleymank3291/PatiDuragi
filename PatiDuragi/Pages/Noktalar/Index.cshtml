@@ -4,30 +4,26 @@
     ViewData["Title"] = "Besleme Noktaları";
 }
 
-<h1>Besleme Noktaları</h1>
+<h1 class="h2 mb-3">Besleme Noktaları <span class="badge text-bg-secondary fs-6 align-middle">@Model.Noktalar.Count</span></h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nokta</th>
-            <th>Bölge</th>
-            <th class="d-none d-md-table-cell">Tür</th>
-            <th class="d-none d-md-table-cell">Durum</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var nokta in Model.Noktalar)
-        {
-            <tr>
-                <td>@nokta.Ad</td>
-                <td>@Model.BolgeAdi(nokta.BolgeId)</td>
-                <td class="d-none d-md-table-cell">@nokta.Tur</td>
-                <td class="d-none d-md-table-cell">
+<partial name="_Harita" model="Model.Noktalar" />
+
+<div class="row g-3">
+    @foreach (var nokta in Model.Noktalar)
+    {
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h2 class="h5 card-title">@nokta.Ad</h2>
+                    <p class="text-muted small mb-2"><i class="bi bi-map"></i> @Model.BolgeAdi(nokta.BolgeId)</p>
+                    <p class="card-text">@nokta.Aciklama</p>
+                    <partial name="_TurRozeti" model="nokta.Tur" />
                     <partial name="_OnayDurumu" model="nokta.Onayli" />
-                </td>
-                <td><a asp-page="Detay" asp-route-id="@nokta.Id">Detay</a></td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </div>
+                <div class="card-footer bg-transparent border-0 pb-3">
+                    <a asp-page="Detay" asp-route-id="@nokta.Id" class="btn btn-sm btn-outline-success">Detay</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

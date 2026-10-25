@@ -1,0 +1,11 @@
+@model string
+
+@{
+    var (renk, ikon) = Model switch
+    {
+        "Mama" => ("text-bg-warning", "bi-basket"),
+        "Su" => ("text-bg-info", "bi-droplet"),
+        _ => ("text-bg-primary", "bi-basket")
+    };
+}
+<span class="badge @renk"><i class="bi @ikon"></i> @Model</span>

@@ -15,7 +15,13 @@ namespace PatiDuragi.Data
             new BeslemeNoktasi { Id = 4, Ad = "Bişkek Caddesi Okul Önü", Aciklama = "Okul bahçe duvarının köşesinde.",
                                  Tur = "Mama ve Su", Enlem = 39.9292, Boylam = 32.8090, Onayli = false, BolgeId = 2 },
             new BeslemeNoktasi { Id = 5, Ad = "Batıkent Metro Çıkışı", Aciklama = "Metro çıkışının sağındaki yeşil alanda.",
-                                 Tur = "Mama ve Su", Enlem = 39.9686, Boylam = 32.7310, Onayli = true, BolgeId = 3 }
+                                 Tur = "Mama ve Su", Enlem = 39.9686, Boylam = 32.7310, Onayli = true, BolgeId = 3 },
+            new BeslemeNoktasi { Id = 6, Ad = "Emek Sağlık Ocağı Arkası", Aciklama = "Bahçe çitinin dibinde, iki kap yan yana.",
+                                 Tur = "Mama ve Su", Enlem = 39.9248, Boylam = 32.8158, Onayli = true, BolgeId = 2 },
+            new BeslemeNoktasi { Id = 7, Ad = "Bahçelievler 3. Cadde", Aciklama = "Eczanenin yanındaki ağaçlık alanda.",
+                                 Tur = "Mama", Enlem = 39.9232, Boylam = 32.8198, Onayli = true, BolgeId = 1 },
+            new BeslemeNoktasi { Id = 8, Ad = "Batıkent Göl Parkı", Aciklama = "Gölün kuzey ucundaki çardağın yanında.",
+                                 Tur = "Su", Enlem = 39.9712, Boylam = 32.7265, Onayli = false, BolgeId = 3 }
         };
 
         public static BeslemeNoktasi? Bul(int id)
