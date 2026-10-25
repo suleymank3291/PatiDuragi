@@ -1,0 +1,6 @@
+@model IEnumerable<PatiDuragi.Models.BeslemeNoktasi>
+
+<div id="harita" class="harita rounded-3 border shadow-sm mb-4"></div>
+<script>
+    haritaCiz(@Json.Serialize(Model.Select(n => new { n.Id, n.Ad, n.Tur, n.Enlem, n.Boylam })));
+</script>
