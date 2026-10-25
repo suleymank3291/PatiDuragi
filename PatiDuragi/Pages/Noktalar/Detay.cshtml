@@ -1,0 +1,29 @@
+@page "{id:int}"
+@model PatiDuragi.Pages.Noktalar.DetayModel
+@{
+    ViewData["Title"] = "Nokta Detayı";
+}
+
+<h1>@Model.SeciliNokta.Ad</h1>
+
+<dl class="row">
+    <dt class="col-sm-3">Bölge</dt>
+    <dd class="col-sm-9">
+        @if (Model.NoktaninBolgesi != null)
+        {
+            <a asp-page="/Bolgeler/Detay" asp-route-id="@Model.NoktaninBolgesi.Id">@Model.NoktaninBolgesi.Ad</a>
+        }
+    </dd>
+    <dt class="col-sm-3">Tür</dt>
+    <dd class="col-sm-9">@Model.SeciliNokta.Tur</dd>
+    <dt class="col-sm-3">Açıklama</dt>
+    <dd class="col-sm-9">@Model.SeciliNokta.Aciklama</dd>
+    <dt class="col-sm-3">Enlem</dt>
+    <dd class="col-sm-9">@Model.SeciliNokta.Enlem</dd>
+    <dt class="col-sm-3">Boylam</dt>
+    <dd class="col-sm-9">@Model.SeciliNokta.Boylam</dd>
+    <dt class="col-sm-3">Durum</dt>
+    <dd class="col-sm-9"><partial name="_OnayDurumu" model="Model.SeciliNokta.Onayli" /></dd>
+</dl>
+
+<a asp-page="Index">Listeye dön</a>

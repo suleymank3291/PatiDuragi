@@ -1,0 +1,16 @@
+@page "{id:int}"
+@model PatiDuragi.Pages.Bolgeler.DetayModel
+@{
+    ViewData["Title"] = "Bölge Detayı";
+}
+
+<h1>@Model.SeciliBolge.Ad</h1>
+
+<dl class="row">
+    <dt class="col-sm-3">İlçe</dt>
+    <dd class="col-sm-9">@Model.SeciliBolge.Ilce</dd>
+    <dt class="col-sm-3">Besleme noktası sayısı</dt>
+    <dd class="col-sm-9">@Model.NoktaSayisi</dd>
+</dl>
+
+<a asp-page="Index">Listeye dön</a>

@@ -1,0 +1,27 @@
+@page
+@model PatiDuragi.Pages.Bolgeler.IndexModel
+@{
+    ViewData["Title"] = "Bölgeler";
+}
+
+<h1>Bölgeler</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Bölge</th>
+            <th>İlçe</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bolge in Model.Bolgeler)
+        {
+            <tr>
+                <td>@bolge.Ad</td>
+                <td>@bolge.Ilce</td>
+                <td><a asp-page="Detay" asp-route-id="@bolge.Id">Detay</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

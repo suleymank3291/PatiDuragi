@@ -1,0 +1,33 @@
+@page
+@model PatiDuragi.Pages.Noktalar.IndexModel
+@{
+    ViewData["Title"] = "Besleme Noktaları";
+}
+
+<h1>Besleme Noktaları</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nokta</th>
+            <th>Bölge</th>
+            <th class="d-none d-md-table-cell">Tür</th>
+            <th class="d-none d-md-table-cell">Durum</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var nokta in Model.Noktalar)
+        {
+            <tr>
+                <td>@nokta.Ad</td>
+                <td>@Model.BolgeAdi(nokta.BolgeId)</td>
+                <td class="d-none d-md-table-cell">@nokta.Tur</td>
+                <td class="d-none d-md-table-cell">
+                    <partial name="_OnayDurumu" model="nokta.Onayli" />
+                </td>
+                <td><a asp-page="Detay" asp-route-id="@nokta.Id">Detay</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
