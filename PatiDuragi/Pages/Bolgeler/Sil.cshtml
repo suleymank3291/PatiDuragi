@@ -1,0 +1,27 @@
+@page "{id:int}"
+@model PatiDuragi.Pages.Bolgeler.SilModel
+@{
+    ViewData["Title"] = "Bölge Sil";
+}
+
+<h1 class="h2 mb-3">Bölge Sil</h1>
+
+@if (Model.Silinebilir)
+{
+    <div class="alert alert-warning">
+        <strong>@Model.SeciliBolge.Ad</strong> (@Model.SeciliBolge.Ilce) bölgesi silinecek. Emin misiniz?
+    </div>
+
+    <form method="post">
+        <button type="submit" class="btn btn-danger">Evet, sil</button>
+        <a asp-page="Index" class="btn btn-secondary">Vazgeç</a>
+    </form>
+}
+else
+{
+    <div class="alert alert-danger">
+        <strong>@Model.SeciliBolge.Ad</strong> bölgesinde kayıtlı besleme noktaları var, bu yüzden silinemez.
+        Önce bu bölgedeki noktaları başka bir bölgeye taşıyın ya da silin.
+    </div>
+    <a asp-page="Index" class="btn btn-secondary">Listeye dön</a>
+}
