@@ -13,6 +13,7 @@ namespace PatiDuragi.Models
 
         [Required(ErrorMessage = "İlçe zorunludur.")]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "İlçe 2-50 karakter olmalı.")]
+        [RegularExpression(@"^[a-zA-ZçğıöşüÇĞİÖŞÜ ]+$", ErrorMessage = "İlçe adı yalnızca harflerden oluşmalı.")]
         [Display(Name = "İlçe")]
         public string Ilce { get; set; } = "";
     }

@@ -16,6 +16,11 @@ namespace PatiDuragi.Pages.Bolgeler
 
         public IActionResult OnPost()
         {
+            if (BolgeDeposu.AyniAdVarMi(YeniBolge.Ad))
+            {
+                ModelState.AddModelError("YeniBolge.Ad", "Bu adla bir bölge zaten var.");
+            }
+
             if (!ModelState.IsValid)
             {
                 return Page();

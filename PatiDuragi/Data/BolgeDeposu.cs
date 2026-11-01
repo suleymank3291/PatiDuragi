@@ -1,3 +1,4 @@
+using System.Globalization;
 using PatiDuragi.Models;
 
 namespace PatiDuragi.Data
@@ -28,6 +29,14 @@ namespace PatiDuragi.Data
         public static void Sil(Bolge bolge)
         {
             Bolgeler.Remove(bolge);
+        }
+
+        // Aynı adla başka bölge var mı? Düzenlemede bölgenin kendisi (haricId) sayılmaz.
+        public static bool AyniAdVarMi(string ad, int haricId = 0)
+        {
+            var turkce = new CultureInfo("tr-TR");
+            return Bolgeler.Any(b => b.Id != haricId &&
+                string.Compare(b.Ad.Trim(), ad.Trim(), turkce, CompareOptions.IgnoreCase) == 0);
         }
 
         // İçinde besleme noktası olan bölge silinemez (noktalar sahipsiz kalmasın)
