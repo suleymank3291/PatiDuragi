@@ -4,7 +4,10 @@
     ViewData["Title"] = "Bölgeler";
 }
 
-<h1 class="h2 mb-3">Bölgeler</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h2 mb-0">Bölgeler</h1>
+    <a asp-page="Ekle" class="btn btn-success"><i class="bi bi-plus-lg"></i> Yeni Bölge</a>
+</div>
 
 <div class="row g-3">
     @foreach (var bolge in Model.Bolgeler)
@@ -21,6 +24,8 @@
                 </div>
                 <div class="card-footer bg-transparent border-0 pb-3">
                     <a asp-page="Detay" asp-route-id="@bolge.Id" class="btn btn-sm btn-outline-success">Detay</a>
+                    <a asp-page="Duzenle" asp-route-id="@bolge.Id" class="btn btn-sm btn-outline-secondary">Düzenle</a>
+                    <a asp-page="Sil" asp-route-id="@bolge.Id" class="btn btn-sm btn-outline-danger">Sil</a>
                 </div>
             </div>
         </div>
