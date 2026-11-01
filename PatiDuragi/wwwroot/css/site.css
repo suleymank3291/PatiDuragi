@@ -47,3 +47,12 @@ body {
 .kart-ikon {
   font-size: 1.75rem;
 }
+
+.kart-hover {
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+
+.kart-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08) !important;
+}
