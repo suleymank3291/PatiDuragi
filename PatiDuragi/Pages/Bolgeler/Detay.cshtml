@@ -13,4 +13,6 @@
     <dd class="col-sm-9">@Model.NoktaSayisi</dd>
 </dl>
 
-<a asp-page="Index">Listeye dön</a>
+<a asp-page="Index" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Listeye dön</a>
+<a asp-page="Duzenle" asp-route-id="@Model.SeciliBolge.Id" class="btn btn-outline-secondary">Düzenle</a>
+<a asp-page="Sil" asp-route-id="@Model.SeciliBolge.Id" class="btn btn-outline-danger">Sil</a>
