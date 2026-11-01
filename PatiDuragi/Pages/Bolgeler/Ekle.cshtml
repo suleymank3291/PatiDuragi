@@ -4,21 +4,22 @@
     ViewData["Title"] = "Yeni Bölge";
 }
 
-<h1 class="h2 mb-3">Yeni Bölge</h1>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-page="Index">Bölgeler</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Yeni Bölge</li>
+    </ol>
+</nav>
 
-<form method="post" class="col-lg-6">
-    <div class="mb-3">
-        <label asp-for="YeniBolge.Ad" class="form-label"></label>
-        <input asp-for="YeniBolge.Ad" class="form-control" />
-        <span asp-validation-for="YeniBolge.Ad" class="text-danger"></span>
+<form method="post" class="card shadow-sm col-lg-6">
+    <div class="card-header bg-success-subtle fw-semibold"><i class="bi bi-plus-circle"></i> Yeni Bölge</div>
+    <div class="card-body">
+        <partial name="_BolgeFormu" for="YeniBolge" />
     </div>
-    <div class="mb-3">
-        <label asp-for="YeniBolge.Ilce" class="form-label"></label>
-        <input asp-for="YeniBolge.Ilce" class="form-control" />
-        <span asp-validation-for="YeniBolge.Ilce" class="text-danger"></span>
+    <div class="card-footer bg-transparent">
+        <button type="submit" class="btn btn-success"><i class="bi bi-check-lg"></i> Kaydet</button>
+        <a asp-page="Index" class="btn btn-outline-secondary">Vazgeç</a>
     </div>
-    <button type="submit" class="btn btn-success">Kaydet</button>
-    <a asp-page="Index" class="btn btn-secondary">Vazgeç</a>
 </form>
 
 @section Scripts {
