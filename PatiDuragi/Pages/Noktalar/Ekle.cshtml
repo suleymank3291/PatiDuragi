@@ -1,0 +1,27 @@
+@page
+@model PatiDuragi.Pages.Noktalar.EkleModel
+@{
+    ViewData["Title"] = "Yeni Besleme Noktası";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-page="Index">Besleme Noktaları</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Yeni Nokta</li>
+    </ol>
+</nav>
+
+<form method="post" class="card shadow-sm col-lg-8">
+    <div class="card-header bg-success-subtle fw-semibold"><i class="bi bi-plus-circle"></i> Yeni Besleme Noktası</div>
+    <div class="card-body">
+        <partial name="_NoktaFormu" for="YeniNokta" />
+    </div>
+    <div class="card-footer bg-transparent">
+        <button type="submit" class="btn btn-success"><i class="bi bi-check-lg"></i> Kaydet</button>
+        <a asp-page="Index" class="btn btn-outline-secondary">Vazgeç</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

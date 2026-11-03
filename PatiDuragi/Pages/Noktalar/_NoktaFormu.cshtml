@@ -1,0 +1,62 @@
+@model PatiDuragi.Models.BeslemeNoktasi
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using PatiDuragi.Data
+
+@{
+    var bolgeler = new SelectList(BolgeDeposu.Bolgeler.OrderBy(b => b.Ad), "Id", "Ad");
+}
+
+<div class="mb-3">
+    <label asp-for="Ad" class="form-label"></label>
+    <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+        <input asp-for="Ad" class="form-control" placeholder="Örn. 7. Cadde Parkı" />
+    </div>
+    <span asp-validation-for="Ad" class="text-danger small"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Aciklama" class="form-label"></label>
+    <textarea asp-for="Aciklama" class="form-control" rows="3"
+              placeholder="Kapların tam olarak nerede olduğunu tarif edin."></textarea>
+    <span asp-validation-for="Aciklama" class="text-danger small"></span>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-12 col-sm-6">
+        <label asp-for="BolgeId" class="form-label"></label>
+        <select asp-for="BolgeId" asp-items="bolgeler" class="form-select">
+            <option value="0">Bölge seçin…</option>
+        </select>
+        <span asp-validation-for="BolgeId" class="text-danger small"></span>
+    </div>
+    <div class="col-12 col-sm-6">
+        <label asp-for="Tur" class="form-label"></label>
+        <select asp-for="Tur" asp-items="@(new SelectList(PatiDuragi.Models.BeslemeNoktasi.Turler))" class="form-select">
+            <option value="">Tür seçin…</option>
+        </select>
+        <span asp-validation-for="Tur" class="text-danger small"></span>
+    </div>
+</div>
+
+<div class="row g-3 mb-1">
+    <div class="col-12 col-sm-6">
+        <label asp-for="Enlem" class="form-label"></label>
+        <input asp-for="Enlem" class="form-control" inputmode="decimal" placeholder="Örn. 39.9213" />
+        <span asp-validation-for="Enlem" class="text-danger small"></span>
+    </div>
+    <div class="col-12 col-sm-6">
+        <label asp-for="Boylam" class="form-label"></label>
+        <input asp-for="Boylam" class="form-control" inputmode="decimal" placeholder="Örn. 32.8235" />
+        <span asp-validation-for="Boylam" class="text-danger small"></span>
+    </div>
+</div>
+<div class="form-text mb-3">
+    Koordinatları ondalık ayırıcı olarak nokta kullanarak yazın. Haritada bir yere sağ tıklayıp
+    koordinatı kopyalayabilirsiniz.
+</div>
+
+<div class="form-check">
+    <input asp-for="Onayli" class="form-check-input" />
+    <label asp-for="Onayli" class="form-check-label"></label>
+</div>
