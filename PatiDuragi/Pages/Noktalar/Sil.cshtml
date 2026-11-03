@@ -1,0 +1,32 @@
+@page "{id:int}"
+@model PatiDuragi.Pages.Noktalar.SilModel
+@{
+    ViewData["Title"] = "Nokta Sil";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-page="Index">Besleme Noktaları</a></li>
+        <li class="breadcrumb-item"><a asp-page="Detay" asp-route-id="@Model.SeciliNokta.Id">@Model.SeciliNokta.Ad</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Sil</li>
+    </ol>
+</nav>
+
+<div class="card shadow-sm col-lg-6 border-warning">
+    <div class="card-body text-center py-4">
+        <i class="bi bi-exclamation-triangle kart-ikon text-warning"></i>
+        <p class="mt-2 mb-1">
+            <strong>@Model.SeciliNokta.Ad</strong> (@Model.BolgeAdi) besleme noktası silinecek. Emin misiniz?
+        </p>
+        <p class="mb-0">
+            <partial name="_TurRozeti" model="Model.SeciliNokta.Tur" />
+            <partial name="_OnayDurumu" model="Model.SeciliNokta.Onayli" />
+        </p>
+    </div>
+    <div class="card-footer bg-transparent text-center">
+        <form method="post" class="d-inline">
+            <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i> Evet, sil</button>
+        </form>
+        <a asp-page="Detay" asp-route-id="@Model.SeciliNokta.Id" class="btn btn-outline-secondary">Vazgeç</a>
+    </div>
+</div>
