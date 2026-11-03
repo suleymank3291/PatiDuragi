@@ -1,9 +1,12 @@
+using System.Globalization;
 using PatiDuragi.Models;
 
 namespace PatiDuragi.Data
 {
     public static class NoktaDeposu
     {
+        private static int sonId = 8;
+
         public static List<BeslemeNoktasi> Noktalar { get; } = new()
         {
             new BeslemeNoktasi { Id = 1, Ad = "7. Cadde Parkı", Aciklama = "Parkın girişindeki bankın yanında.",
@@ -27,6 +30,45 @@ namespace PatiDuragi.Data
         public static BeslemeNoktasi? Bul(int id)
         {
             return Noktalar.FirstOrDefault(n => n.Id == id);
+        }
+
+        public static void Ekle(BeslemeNoktasi nokta)
+        {
+            sonId++;
+            nokta.Id = sonId;
+            Noktalar.Add(nokta);
+        }
+
+        public static void Sil(BeslemeNoktasi nokta)
+        {
+            Noktalar.Remove(nokta);
+        }
+
+        // DataAnnotations'ın kontrol edemediği, depoya bakmayı gerektiren kurallar.
+        // Ekle ve Düzenle sayfaları aynı kuralları kullanır; dönen her hata (alan adı, mesaj) çiftidir.
+        public static List<(string Alan, string Mesaj)> KuralHatalari(BeslemeNoktasi nokta, int haricId = 0)
+        {
+            var hatalar = new List<(string, string)>();
+
+            if (nokta.BolgeId > 0 && BolgeDeposu.Bul(nokta.BolgeId) == null)
+            {
+                hatalar.Add(("BolgeId", "Seçilen bölge bulunamadı."));
+            }
+
+            if (!string.IsNullOrWhiteSpace(nokta.Ad) && AyniAdVarMi(nokta.Ad, nokta.BolgeId, haricId))
+            {
+                hatalar.Add(("Ad", "Bu bölgede aynı adla bir nokta zaten var."));
+            }
+
+            return hatalar;
+        }
+
+        // Aynı bölgede aynı adla başka nokta var mı? Düzenlemede noktanın kendisi (haricId) sayılmaz.
+        public static bool AyniAdVarMi(string ad, int bolgeId, int haricId = 0)
+        {
+            var turkce = new CultureInfo("tr-TR");
+            return Noktalar.Any(n => n.Id != haricId && n.BolgeId == bolgeId &&
+                string.Compare(n.Ad.Trim(), ad.Trim(), turkce, CompareOptions.IgnoreCase) == 0);
         }
     }
 }
