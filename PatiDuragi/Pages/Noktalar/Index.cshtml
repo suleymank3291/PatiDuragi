@@ -4,7 +4,19 @@
     ViewData["Title"] = "Besleme Noktaları";
 }
 
-<h1 class="h2 mb-3">Besleme Noktaları <span class="badge text-bg-secondary fs-6 align-middle">@Model.Noktalar.Count</span></h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h2 mb-0">Besleme Noktaları <span class="badge text-bg-secondary fs-6 align-middle">@Model.Noktalar.Count</span></h1>
+    <a asp-page="Ekle" class="btn btn-success"><i class="bi bi-plus-lg"></i> Yeni Nokta</a>
+</div>
+
+@if (Model.Noktalar.Count == 0)
+{
+    <div class="text-center text-muted border rounded-3 py-5 mb-4">
+        <i class="bi bi-geo-alt kart-ikon"></i>
+        <p class="mt-2">Henüz besleme noktası eklenmemiş.</p>
+        <a asp-page="Ekle" class="btn btn-success btn-sm">İlk noktayı ekle</a>
+    </div>
+}
 
 <partial name="_Harita" model="Model.Noktalar" />
 
@@ -22,6 +34,8 @@
                 </div>
                 <div class="card-footer bg-transparent border-0 pb-3">
                     <a asp-page="Detay" asp-route-id="@nokta.Id" class="btn btn-sm btn-outline-success">Detay</a>
+                    <a asp-page="Duzenle" asp-route-id="@nokta.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Düzenle</a>
+                    <a asp-page="Sil" asp-route-id="@nokta.Id" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i> Sil</a>
                 </div>
             </div>
         </div>

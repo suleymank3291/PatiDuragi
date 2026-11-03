@@ -26,5 +26,6 @@
     <div class="card-footer bg-transparent">
         <a asp-page="Duzenle" asp-route-id="@Model.SeciliBolge.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Düzenle</a>
         <a asp-page="Sil" asp-route-id="@Model.SeciliBolge.Id" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i> Sil</a>
+        <a asp-page="/Noktalar/Ekle" asp-route-bolgeId="@Model.SeciliBolge.Id" class="btn btn-sm btn-success"><i class="bi bi-plus-lg"></i> Bu bölgeye nokta ekle</a>
     </div>
 </div>

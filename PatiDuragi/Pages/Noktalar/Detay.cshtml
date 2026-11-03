@@ -4,6 +4,13 @@
     ViewData["Title"] = "Nokta Detayı";
 }
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-page="Index">Besleme Noktaları</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.SeciliNokta.Ad</li>
+    </ol>
+</nav>
+
 <h1 class="h2">@Model.SeciliNokta.Ad</h1>
 <p class="mb-4">
     <partial name="_TurRozeti" model="Model.SeciliNokta.Tur" />
@@ -27,7 +34,9 @@
             <dt class="col-sm-4">Boylam</dt>
             <dd class="col-sm-8">@Model.SeciliNokta.Boylam</dd>
         </dl>
-        <a asp-page="Index" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Listeye dön</a>
+        <a asp-page="Duzenle" asp-route-id="@Model.SeciliNokta.Id" class="btn btn-outline-secondary"><i class="bi bi-pencil"></i> Düzenle</a>
+        <a asp-page="Sil" asp-route-id="@Model.SeciliNokta.Id" class="btn btn-outline-danger"><i class="bi bi-trash"></i> Sil</a>
+        <a asp-page="Index" class="btn btn-link"><i class="bi bi-arrow-left"></i> Listeye dön</a>
     </div>
     <div class="col-12 col-lg-7">
         <partial name="_Harita" model="new[] { Model.SeciliNokta }" />
