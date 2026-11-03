@@ -42,9 +42,9 @@ PatiDuragi/
 ├── Models/        Bolge, BeslemeNoktasi sınıfları
 ├── Data/          Bellek içi örnek veri depoları (BolgeDeposu, NoktaDeposu)
 └── Pages/
-    ├── Bolgeler/  Bölge listesi ve detay sayfası
-    ├── Noktalar/  Besleme noktası listesi ve detay sayfası
-    └── Shared/    Ortak sayfa düzeni (_Layout) ve parçalar (_Harita, _TurRozeti, _OnayDurumu)
+    ├── Bolgeler/  Bölge listeleme, detay, ekleme, düzenleme, silme (ortak form: _BolgeFormu)
+    ├── Noktalar/  Besleme noktası listeleme, detay, ekleme, düzenleme, silme (ortak form: _NoktaFormu)
+    └── Shared/    Ortak sayfa düzeni (_Layout) ve parçalar (_Harita, _TurRozeti, _OnayDurumu, _Mesaj)
 wwwroot/js/harita.js   Noktaları haritada işaretleyen fonksiyon
 ```
 
@@ -53,7 +53,7 @@ wwwroot/js/harita.js   Noktaları haritada işaretleyen fonksiyon
 | Hafta | Lider | Durum |
 |---|---|---|
 | 1 | Süleyman Kılınç | Proje iskeleti, ortak düzen ve mobil menü, ana sayfa, bölge ve besleme noktası listeleme/detay sayfaları, noktaların OpenStreetMap haritasında gösterimi |
-| 2 | Selman Yasin Zemheri | — |
+| 2 | Selman Yasin Zemheri | Bölge ve besleme noktası ekleme/düzenleme/silme formları; DataAnnotations ile istemci ve sunucu tarafı doğrulama (zorunlu alanlar, uzunluk, tür listesi, koordinat aralığı) ve depoya bakan ek kurallar (aynı ad, var olmayan bölge, içinde nokta olan bölgenin silinmemesi); model bağlama; işlem sonrası TempData mesajları |
 | 3 | Süleyman Kılınç | — |
 | 4 | Selman Yasin Zemheri | — |
 | 5 | Süleyman Kılınç | — |
