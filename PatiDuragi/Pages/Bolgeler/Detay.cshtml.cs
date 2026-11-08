@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using PatiDuragi.Data;
 using PatiDuragi.Models;
 
@@ -7,19 +8,26 @@ namespace PatiDuragi.Pages.Bolgeler
 {
     public class DetayModel : PageModel
     {
-        public Bolge SeciliBolge { get; set; } = new();
-        public int NoktaSayisi { get; set; }
+        private readonly PatiDbContext _context;
 
-        public IActionResult OnGet(int id)
+        public DetayModel(PatiDbContext context)
         {
-            var bolge = BolgeDeposu.Bul(id);
+            _context = context;
+        }
+
+        public Bolge SeciliBolge { get; set; } = new();
+
+        public async Task<IActionResult> OnGetAsync(int id)
+        {
+            var bolge = await _context.Bolgeler
+                .Include(b => b.Noktalar)
+                .FirstOrDefaultAsync(b => b.Id == id);
             if (bolge == null)
             {
                 return NotFound();
             }
 
             SeciliBolge = bolge;
-            NoktaSayisi = NoktaDeposu.Noktalar.Count(n => n.BolgeId == id);
             return Page();
         }
     }

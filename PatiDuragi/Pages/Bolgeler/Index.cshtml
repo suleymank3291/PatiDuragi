@@ -22,14 +22,15 @@
     @foreach (var bolge in Model.Bolgeler)
     {
         <div class="col-12 col-md-6 col-lg-4">
-            <div class="card h-100 shadow-sm kart-hover">
+            <div class="card h-100 shadow-sm kart-hover overflow-hidden">
+                <div id="bolge-harita-@bolge.Id" class="bolge-harita"></div>
                 <div class="card-body d-flex align-items-center gap-3">
                     <i class="bi bi-map kart-ikon text-success"></i>
                     <div class="flex-grow-1">
-                        <h2 class="h5 mb-0">@bolge.Ad</h2>
+                        <h2 class="h5 mb-0">@bolge.Mahalle</h2>
                         <div class="text-muted small">@bolge.Ilce</div>
                     </div>
-                    <span class="badge rounded-pill text-bg-light border">@Model.NoktaSayisi(bolge.Id) nokta</span>
+                    <span class="badge rounded-pill text-bg-light border">@bolge.Noktalar.Count nokta</span>
                 </div>
                 <div class="card-footer bg-transparent border-0 pb-3">
                     <a asp-page="Detay" asp-route-id="@bolge.Id" class="btn btn-sm btn-outline-success">Detay</a>
@@ -40,3 +41,12 @@
         </div>
     }
 </div>
+
+@section Scripts {
+    <script>
+        @foreach (var bolge in Model.Bolgeler)
+        {
+            @:bolgeHaritasiCiz("bolge-harita-@bolge.Id", @Json.Serialize(bolge.Sinir), @Json.Serialize(bolge.Noktalar.Select(n => new { n.Id, n.Ad, n.Tur, n.Enlem, n.Boylam })), true);
+        }
+    </script>
+}

@@ -1,19 +1,23 @@
 @model PatiDuragi.Models.Bolge
 
+<div asp-validation-summary="ModelOnly" class="text-danger small mb-2"></div>
 <div class="mb-3">
-    <label asp-for="Ad" class="form-label"></label>
-    <div class="input-group">
-        <span class="input-group-text"><i class="bi bi-signpost-2"></i></span>
-        <input asp-for="Ad" class="form-control" placeholder="Örn. Bahçelievler" />
-    </div>
-    <span asp-validation-for="Ad" class="text-danger small"></span>
-</div>
-<div class="mb-1">
     <label asp-for="Ilce" class="form-label"></label>
     <div class="input-group">
         <span class="input-group-text"><i class="bi bi-buildings"></i></span>
         <input asp-for="Ilce" class="form-control" placeholder="Örn. Çankaya" />
     </div>
     <span asp-validation-for="Ilce" class="text-danger small"></span>
-    <div class="form-text">İlçe adında yalnızca harf kullanın.</div>
+</div>
+<div class="mb-1">
+    <label asp-for="Mahalle" class="form-label"></label>
+    <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-signpost-2"></i></span>
+        <input asp-for="Mahalle" class="form-control" placeholder="Örn. Emek" />
+    </div>
+    <span asp-validation-for="Mahalle" class="text-danger small"></span>
+    <div class="form-text">
+        Ankara'daki resmî mahalle adını yazın; sınırı OpenStreetMap'ten otomatik alınır.
+        Semt adları (ör. Batıkent) resmî sınırı olmadığı için kabul edilmez.
+    </div>
 </div>

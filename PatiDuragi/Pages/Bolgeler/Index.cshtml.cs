@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using PatiDuragi.Data;
 using PatiDuragi.Models;
 
@@ -6,16 +7,22 @@ namespace PatiDuragi.Pages.Bolgeler
 {
     public class IndexModel : PageModel
     {
-        public List<Bolge> Bolgeler { get; set; } = new();
+        private readonly PatiDbContext _context;
 
-        public void OnGet()
+        public IndexModel(PatiDbContext context)
         {
-            Bolgeler = BolgeDeposu.Bolgeler;
+            _context = context;
         }
 
-        public int NoktaSayisi(int bolgeId)
+        public List<Bolge> Bolgeler { get; set; } = new();
+
+        public async Task OnGetAsync()
         {
-            return NoktaDeposu.Noktalar.Count(n => n.BolgeId == bolgeId);
+            // Include: her bölgenin noktaları da yüklenir, kartta nokta sayısı buradan okunur
+            Bolgeler = await _context.Bolgeler
+                .Include(b => b.Noktalar)
+                .OrderBy(b => b.Ilce).ThenBy(b => b.Mahalle)
+                .ToListAsync();
         }
     }
 }
