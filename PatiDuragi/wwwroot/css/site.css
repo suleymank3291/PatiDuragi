@@ -44,6 +44,10 @@ body {
   }
 }
 
+.bolge-harita {
+  height: 170px;
+}
+
 .kart-ikon {
   font-size: 1.75rem;
 }
@@ -55,4 +59,68 @@ body {
 .kart-hover:hover {
   transform: translateY(-3px);
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Besleme noktaları listesi */
+.ozet {
+  background: var(--bs-light);
+  border: 1px solid var(--bs-border-color);
+  border-radius: 50rem;
+  padding: 0.3rem 0.85rem;
+  font-size: 0.9rem;
+}
+
+.tur-ikon {
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.tur-mama {
+  background: var(--bs-warning-bg-subtle);
+  color: var(--bs-warning-text-emphasis);
+}
+
+.tur-su {
+  background: var(--bs-info-bg-subtle);
+  color: var(--bs-info-text-emphasis);
+}
+
+.tur-ikisi {
+  background: var(--bs-primary-bg-subtle);
+  color: var(--bs-primary-text-emphasis);
+}
+
+/* Uzun açıklamalar kartları farklı boya sokmasın: en fazla iki satır */
+.iki-satir {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.mahalle-menu .nav-link {
+  color: var(--bs-body-color);
+}
+
+.mahalle-menu .nav-link:hover {
+  background: var(--bs-success-bg-subtle);
+}
+
+/* Geniş ekranda mahalle menüsü kaydırırken ekranda kalır */
+@media (min-width: 992px) {
+  .mahalle-menu {
+    position: sticky;
+    top: 1rem;
+  }
+}
+
+/* Menüden bir mahalleye atlanınca başlık ekranın tam tepesine yapışmasın */
+.bolum {
+  scroll-margin-top: 1rem;
 }

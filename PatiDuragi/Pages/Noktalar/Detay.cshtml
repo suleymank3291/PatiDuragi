@@ -2,43 +2,62 @@
 @model PatiDuragi.Pages.Noktalar.DetayModel
 @{
     ViewData["Title"] = "Nokta Detayı";
+    var nokta = Model.SeciliNokta;
 }
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-page="Index">Besleme Noktaları</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@Model.SeciliNokta.Ad</li>
+        @if (nokta.Bolge != null)
+        {
+            <li class="breadcrumb-item"><a asp-page="Index" asp-fragment="bolge-@nokta.BolgeId">@nokta.Bolge.Mahalle</a></li>
+        }
+        <li class="breadcrumb-item active" aria-current="page">@nokta.Ad</li>
     </ol>
 </nav>
 
-<h1 class="h2">@Model.SeciliNokta.Ad</h1>
-<p class="mb-4">
-    <partial name="_TurRozeti" model="Model.SeciliNokta.Tur" />
-    <partial name="_OnayDurumu" model="Model.SeciliNokta.Onayli" />
-</p>
-
 <div class="row g-4">
     <div class="col-12 col-lg-5">
-        <dl class="row">
-            <dt class="col-sm-4">Bölge</dt>
-            <dd class="col-sm-8">
-                @if (Model.NoktaninBolgesi != null)
-                {
-                    <a asp-page="/Bolgeler/Detay" asp-route-id="@Model.NoktaninBolgesi.Id">@Model.NoktaninBolgesi.Ad</a>
-                }
-            </dd>
-            <dt class="col-sm-4">Açıklama</dt>
-            <dd class="col-sm-8">@Model.SeciliNokta.Aciklama</dd>
-            <dt class="col-sm-4">Enlem</dt>
-            <dd class="col-sm-8">@Model.SeciliNokta.Enlem</dd>
-            <dt class="col-sm-4">Boylam</dt>
-            <dd class="col-sm-8">@Model.SeciliNokta.Boylam</dd>
-        </dl>
-        <a asp-page="Duzenle" asp-route-id="@Model.SeciliNokta.Id" class="btn btn-outline-secondary"><i class="bi bi-pencil"></i> Düzenle</a>
-        <a asp-page="Sil" asp-route-id="@Model.SeciliNokta.Id" class="btn btn-outline-danger"><i class="bi bi-trash"></i> Sil</a>
-        <a asp-page="Index" class="btn btn-link"><i class="bi bi-arrow-left"></i> Listeye dön</a>
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <partial name="_TurIkonu" model="nokta.Tur" />
+                    <div>
+                        <h1 class="h3 mb-1">@nokta.Ad</h1>
+                        <partial name="_TurRozeti" model="nokta.Tur" />
+                        <partial name="_OnayDurumu" model="nokta.Onayli" />
+                    </div>
+                </div>
+                <p class="mb-0">@nokta.Aciklama</p>
+            </div>
+            <ul class="list-group list-group-flush small">
+                <li class="list-group-item d-flex justify-content-between">
+                    <span class="text-muted"><i class="bi bi-map"></i> Bölge</span>
+                    @if (nokta.Bolge != null)
+                    {
+                        <a asp-page="/Bolgeler/Detay" asp-route-id="@nokta.BolgeId">@nokta.Bolge.TamAd</a>
+                    }
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span class="text-muted"><i class="bi bi-crosshair"></i> Konum</span>
+                    <span class="font-monospace">@nokta.Enlem, @nokta.Boylam</span>
+                </li>
+            </ul>
+            <div class="card-footer bg-transparent">
+                <a asp-page="Duzenle" asp-route-id="@nokta.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i> Düzenle</a>
+                <a asp-page="Sil" asp-route-id="@nokta.Id" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i> Sil</a>
+            </div>
+        </div>
     </div>
     <div class="col-12 col-lg-7">
-        <partial name="_Harita" model="new[] { Model.SeciliNokta }" />
+        <div id="nokta-harita" class="harita rounded-3 border shadow-sm"></div>
+        <div class="form-text"><span class="text-danger">Kırmızı çizgi:</span> noktanın bulunduğu mahallenin sınırı.</div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        bolgeHaritasiCiz("nokta-harita", @Json.Serialize(nokta.Bolge?.Sinir),
+            @Json.Serialize(new[] { new { nokta.Id, nokta.Ad, nokta.Tur, nokta.Enlem, nokta.Boylam } }), false);
+    </script>
+}

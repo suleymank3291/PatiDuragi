@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using PatiDuragi.Data;
 using PatiDuragi.Models;
 
@@ -7,31 +8,40 @@ namespace PatiDuragi.Pages.Noktalar
 {
     public class SilModel : PageModel
     {
-        public BeslemeNoktasi SeciliNokta { get; set; } = new();
-        public string BolgeAdi { get; set; } = "";
+        private readonly PatiDbContext _context;
 
-        public IActionResult OnGet(int id)
+        public SilModel(PatiDbContext context)
         {
-            var nokta = NoktaDeposu.Bul(id);
+            _context = context;
+        }
+
+        public BeslemeNoktasi SeciliNokta { get; set; } = new();
+
+        public async Task<IActionResult> OnGetAsync(int id)
+        {
+            var nokta = await _context.Noktalar
+                .Include(n => n.Bolge)
+                .FirstOrDefaultAsync(n => n.Id == id);
             if (nokta == null)
             {
                 return NotFound();
             }
 
             SeciliNokta = nokta;
-            BolgeAdi = BolgeDeposu.Bul(nokta.BolgeId)?.Ad ?? "-";
             return Page();
         }
 
-        public IActionResult OnPost(int id)
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            var nokta = NoktaDeposu.Bul(id);
+            var nokta = await _context.Noktalar.FindAsync(id);
             if (nokta == null)
             {
                 return NotFound();
             }
 
-            NoktaDeposu.Sil(nokta);
+            _context.Noktalar.Remove(nokta);
+            await _context.SaveChangesAsync();
+
             TempData["Mesaj"] = $"\"{nokta.Ad}\" noktası silindi.";
             return RedirectToPage("Index");
         }

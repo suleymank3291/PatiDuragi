@@ -1,0 +1,12 @@
+@model string
+
+@* Türe göre renkli yuvarlak ikon (rozetle aynı renkler) *@
+@{
+    var (sinif, ikon) = Model switch
+    {
+        "Mama" => ("tur-mama", "bi-basket"),
+        "Su" => ("tur-su", "bi-droplet"),
+        _ => ("tur-ikisi", "bi-basket")
+    };
+}
+<div class="tur-ikon @sinif"><i class="bi @ikon"></i></div>

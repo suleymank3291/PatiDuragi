@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using PatiDuragi.Data;
 using PatiDuragi.Models;
 
@@ -6,16 +7,25 @@ namespace PatiDuragi.Pages.Noktalar
 {
     public class IndexModel : PageModel
     {
-        public List<BeslemeNoktasi> Noktalar { get; set; } = new();
+        private readonly PatiDbContext _context;
 
-        public void OnGet()
+        public IndexModel(PatiDbContext context)
         {
-            Noktalar = NoktaDeposu.Noktalar;
+            _context = context;
         }
 
-        public string BolgeAdi(int bolgeId)
+        // Noktalar bölgelerine göre gruplu gösterilir: her bölge kendi noktalarıyla birlikte yüklenir
+        public List<Bolge> Bolgeler { get; set; } = new();
+        public List<BeslemeNoktasi> Noktalar { get; set; } = new();
+
+        public async Task OnGetAsync()
         {
-            return BolgeDeposu.Bul(bolgeId)?.Ad ?? "-";
+            Bolgeler = await _context.Bolgeler
+                .Include(b => b.Noktalar)
+                .OrderBy(b => b.Ilce).ThenBy(b => b.Mahalle)
+                .ToListAsync();
+
+            Noktalar = Bolgeler.SelectMany(b => b.Noktalar).ToList();
         }
     }
 }
