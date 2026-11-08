@@ -1,4 +1,7 @@
 using System.Globalization;
+using Microsoft.EntityFrameworkCore;
+using PatiDuragi.Data;
+using PatiDuragi.Services;
 
 // Uygulama her bilgisayarda Türkçe çalışsın; ancak enlem/boylam gibi ondalık sayılar
 // formlarda ve tarayıcı tarafı doğrulamada "39.92" biçiminde (nokta ile) kullanılsın.
@@ -12,6 +15,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+// Bağlantı dizesi depoda değil, her geliştiricinin kendi user-secrets kaydında durur
+builder.Services.AddDbContext<PatiDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PatiDb")));
+
+// Mahalle sınırlarını OpenStreetMap'ten çeken servis (kendi HttpClient'ı ile)
+builder.Services.AddHttpClient<SinirServisi>();
 
 var app = builder.Build();
 

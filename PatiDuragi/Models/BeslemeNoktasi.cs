@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace PatiDuragi.Models
 {
@@ -38,8 +40,12 @@ namespace PatiDuragi.Models
         [Display(Name = "Onaylı")]
         public bool Onayli { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "Bölge seçmelisiniz.")]
+        // Bölge formdan seçilmez; sunucu koordinata bakarak hangi mahallenin içinde olduğunu bulur
+        [BindNever, ValidateNever]
         [Display(Name = "Bölge")]
         public int BolgeId { get; set; }
+
+        // Noktanın ait olduğu bölge; sorguda Include ile birlikte yüklenir
+        public Bolge? Bolge { get; set; }
     }
 }
