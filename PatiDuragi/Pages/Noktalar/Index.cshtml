@@ -1,24 +1,70 @@
 @page
 @model PatiDuragi.Pages.Noktalar.IndexModel
+@using Microsoft.AspNetCore.Mvc.Rendering
 @{
     ViewData["Title"] = "Besleme Noktaları";
-    var onayliSayisi = Model.Noktalar.Count(n => n.Onayli);
-    var bekleyenSayisi = Model.Noktalar.Count - onayliSayisi;
+    var bekleyenSayisi = Model.ToplamSayisi - Model.OnayliSayisi;
+
+    // Filtre varken yalnızca sonucu olan mahalleler gösterilir
+    var gosterilenBolgeler = Model.FiltreVar
+        ? Model.Bolgeler.Where(b => Model.BolgeninNoktalari(b.Id).Count > 0).ToList()
+        : Model.Bolgeler;
 }
 
 <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-3">
     <div>
         <h1 class="h2 mb-1">Besleme Noktaları</h1>
-        <p class="text-muted mb-0">@Model.Noktalar.Count nokta, @Model.Bolgeler.Count mahalleye dağılmış durumda.</p>
+        <p class="text-muted mb-0">@Model.ToplamSayisi nokta, @Model.Bolgeler.Count mahalleye dağılmış durumda.</p>
     </div>
     <a asp-page="Ekle" class="btn btn-success"><i class="bi bi-plus-lg"></i> Yeni Nokta</a>
 </div>
 
+@* Özet rozetleri aynı zamanda hızlı filtre bağlantısıdır *@
 <div class="d-flex flex-wrap gap-2 mb-3">
-    <span class="ozet"><i class="bi bi-geo-alt text-primary"></i> <strong>@Model.Noktalar.Count</strong> toplam</span>
-    <span class="ozet"><i class="bi bi-check-circle text-success"></i> <strong>@onayliSayisi</strong> onaylı</span>
-    <span class="ozet"><i class="bi bi-hourglass-split text-warning"></i> <strong>@bekleyenSayisi</strong> onay bekliyor</span>
+    <a asp-page="Index" class="ozet text-reset text-decoration-none"><i class="bi bi-geo-alt text-primary"></i> <strong>@Model.ToplamSayisi</strong> toplam</a>
+    <a asp-page="Index" asp-route-Onay="onayli" class="ozet text-reset text-decoration-none"><i class="bi bi-check-circle text-success"></i> <strong>@Model.OnayliSayisi</strong> onaylı</a>
+    <a asp-page="Index" asp-route-Onay="bekleyen" class="ozet text-reset text-decoration-none"><i class="bi bi-hourglass-split text-warning"></i> <strong>@bekleyenSayisi</strong> onay bekliyor</a>
 </div>
+
+@* Arama ve filtre formu: GET ile gönderilir, değerler adres çubuğunda kalır (paylaşılabilir bağlantı) *@
+<form method="get" class="card card-body shadow-sm mb-3 filtre">
+    <div class="row g-2 align-items-end">
+        <div class="col-12 col-md-5">
+            <label asp-for="Arama" class="form-label small text-muted mb-1">Ara</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input asp-for="Arama" class="form-control" placeholder="Ad veya açıklamada ara (örn. park)" />
+            </div>
+        </div>
+        <div class="col-6 col-md-2">
+            <label asp-for="Tur" class="form-label small text-muted mb-1">Tür</label>
+            <select asp-for="Tur" asp-items="@(new SelectList(PatiDuragi.Models.BeslemeNoktasi.Turler))" class="form-select">
+                <option value="">Tümü</option>
+            </select>
+        </div>
+        <div class="col-6 col-md-2">
+            <label asp-for="Onay" class="form-label small text-muted mb-1">Onay durumu</label>
+            <select asp-for="Onay" class="form-select">
+                <option value="">Tümü</option>
+                <option value="onayli">Onaylı</option>
+                <option value="bekleyen">Onay bekliyor</option>
+            </select>
+        </div>
+        <div class="col-12 col-md-3 d-flex gap-2">
+            <button type="submit" class="btn btn-success flex-grow-1"><i class="bi bi-funnel"></i> Filtrele</button>
+            @if (Model.FiltreVar)
+            {
+                <a asp-page="Index" class="btn btn-outline-secondary" title="Filtreyi temizle"><i class="bi bi-x-lg"></i> Temizle</a>
+            }
+        </div>
+    </div>
+    @if (Model.FiltreVar)
+    {
+        <div class="small text-muted mt-2">
+            <i class="bi bi-funnel-fill text-success"></i> Filtreye uyan <strong>@Model.Noktalar.Count</strong> nokta gösteriliyor.
+        </div>
+    }
+</form>
 
 <div id="harita" class="harita rounded-3 border shadow-sm mb-4"></div>
 
@@ -30,6 +76,14 @@
         <a asp-page="/Bolgeler/Ekle" class="btn btn-success btn-sm">Mahalle ekle</a>
     </div>
 }
+else if (Model.FiltreVar && Model.Noktalar.Count == 0)
+{
+    <div class="text-center text-muted border rounded-3 py-5">
+        <i class="bi bi-search kart-ikon"></i>
+        <p class="mt-2">Aramanıza uyan besleme noktası bulunamadı.</p>
+        <a asp-page="Index" class="btn btn-outline-secondary btn-sm">Filtreyi temizle</a>
+    </div>
+}
 else
 {
     <div class="row g-4">
@@ -38,11 +92,12 @@ else
             <nav class="mahalle-menu">
                 <div class="text-muted small fw-semibold text-uppercase mb-2 d-none d-lg-block">Mahalleler</div>
                 <div class="nav nav-pills flex-lg-column flex-nowrap overflow-auto gap-1">
-                    @foreach (var bolge in Model.Bolgeler)
+                    @foreach (var bolge in gosterilenBolgeler)
                     {
+                        var noktaSayisi = Model.BolgeninNoktalari(bolge.Id).Count;
                         <a class="nav-link d-flex justify-content-between align-items-center gap-2 text-nowrap" href="#bolge-@bolge.Id">
                             <span>@bolge.Mahalle <span class="text-muted small">· @bolge.Ilce</span></span>
-                            <span class="badge rounded-pill text-bg-light border">@bolge.Noktalar.Count</span>
+                            <span class="badge rounded-pill text-bg-light border">@noktaSayisi</span>
                         </a>
                     }
                 </div>
@@ -50,18 +105,19 @@ else
         </div>
 
         <div class="col-12 col-lg-9">
-            @foreach (var bolge in Model.Bolgeler)
+            @foreach (var bolge in gosterilenBolgeler)
             {
+                var noktalar = Model.BolgeninNoktalari(bolge.Id);
                 <section id="bolge-@bolge.Id" class="bolum mb-4">
                     <div class="d-flex flex-wrap align-items-center gap-2 border-bottom pb-2 mb-3">
                         <i class="bi bi-pin-map text-danger fs-5"></i>
                         <h2 class="h5 mb-0">@bolge.Mahalle</h2>
                         <span class="text-muted">@bolge.Ilce</span>
-                        <span class="badge rounded-pill text-bg-light border">@bolge.Noktalar.Count nokta</span>
+                        <span class="badge rounded-pill text-bg-light border">@noktalar.Count nokta</span>
                         <a asp-page="/Bolgeler/Detay" asp-route-id="@bolge.Id" class="ms-auto small text-decoration-none">Mahalleyi gör <i class="bi bi-arrow-right"></i></a>
                     </div>
 
-                    @if (bolge.Noktalar.Count == 0)
+                    @if (noktalar.Count == 0)
                     {
                         <div class="text-muted small border rounded-3 p-3 d-flex align-items-center gap-2">
                             <i class="bi bi-inbox"></i> Bu mahallede henüz nokta yok.
@@ -70,7 +126,7 @@ else
                     }
 
                     <div class="row g-3">
-                        @foreach (var nokta in bolge.Noktalar.OrderBy(n => n.Ad))
+                        @foreach (var nokta in noktalar)
                         {
                             <div class="col-12 col-md-6 col-xl-4">
                                 <div class="card h-100 shadow-sm kart-hover">
