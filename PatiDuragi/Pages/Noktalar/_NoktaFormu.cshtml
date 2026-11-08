@@ -45,7 +45,14 @@
         <span asp-validation-for="Boylam" class="text-danger small"></span>
     </div>
 </div>
-<div class="form-text">
-    <i class="bi bi-magic"></i> Bölge seçmenize gerek yok: nokta, koordinatın içinde kaldığı mahalleye otomatik atanır.
-    Ondalık ayırıcı olarak nokta kullanın; haritada bir yere sağ tıklayıp koordinatı kopyalayabilirsiniz.
+<div class="form-text mb-2">
+    <i class="bi bi-hand-index"></i> Konumu aşağıdaki haritaya tıklayarak seçin (işareti sürükleyerek de düzeltebilirsiniz)
+    ya da koordinatı elle yazın. Bölge seçmenize gerek yok: nokta, içinde kaldığı mahalleye otomatik atanır.
+</div>
+
+@* Konum seçme haritası: kırmızı çizgiler kayıtlı mahallelerin sınırları. Sayfadaki konumSecici() çalıştırır. *@
+<div id="konum-harita" class="konum-harita rounded-3 border"
+     data-enlem="@Html.IdFor(m => m.Enlem)" data-boylam="@Html.IdFor(m => m.Boylam)"></div>
+<div id="konum-harita-bilgi" class="small mt-1 text-muted">
+    <i class="bi bi-info-circle"></i> Henüz konum seçilmedi.
 </div>

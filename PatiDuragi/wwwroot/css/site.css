@@ -124,3 +124,14 @@ body {
 .bolum {
   scroll-margin-top: 1rem;
 }
+
+/* Nokta formundaki konum seçme haritası */
+.konum-harita {
+  height: 400px;
+  cursor: crosshair;
+}
+
+/* Haritada tıklanan mahalle sınırının etrafında tarayıcının odak çerçevesi çıkmasın */
+.leaflet-container path.leaflet-interactive:focus {
+  outline: none;
+}

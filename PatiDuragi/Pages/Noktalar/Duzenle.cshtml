@@ -25,4 +25,9 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        konumSecici("konum-harita",
+            @Json.Serialize(Model.Bolgeler.Select(b => new { b.Id, b.Mahalle, b.Ilce, b.Sinir })),
+            @Json.Serialize(Model.DuzenlenenNokta.BolgeId));
+    </script>
 }

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using PatiDuragi.Data;
 using PatiDuragi.Models;
 
@@ -19,6 +20,9 @@ namespace PatiDuragi.Pages.Noktalar
 
         public int Id { get; set; }
 
+        // Konum haritasında sınırları çizilecek mahalleler
+        public List<Bolge> Bolgeler { get; set; } = new();
+
         public async Task<IActionResult> OnGetAsync(int id)
         {
             var nokta = await _context.Noktalar.FindAsync(id);
@@ -29,12 +33,14 @@ namespace PatiDuragi.Pages.Noktalar
 
             Id = id;
             DuzenlenenNokta = nokta;
+            Bolgeler = await _context.Bolgeler.OrderBy(b => b.Mahalle).ToListAsync();
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
             Id = id;
+            Bolgeler = await _context.Bolgeler.OrderBy(b => b.Mahalle).ToListAsync();
             if (!ModelState.IsValid)
             {
                 return Page();

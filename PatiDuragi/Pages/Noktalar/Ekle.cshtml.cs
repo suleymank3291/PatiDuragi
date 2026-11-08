@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using PatiDuragi.Data;
 using PatiDuragi.Models;
 
@@ -18,18 +19,22 @@ namespace PatiDuragi.Pages.Noktalar
         public BeslemeNoktasi YeniNokta { get; set; } = new();
 
         // Bölge detayından "Bu bölgeye nokta ekle" ile gelindiyse o bölge formun üstünde gösterilir
+        // ve konum haritası o mahalleye odaklanır
         public Bolge? HedefBolge { get; set; }
+
+        // Konum haritasında sınırları çizilecek mahalleler
+        public List<Bolge> Bolgeler { get; set; } = new();
 
         public async Task OnGetAsync(int? bolgeId)
         {
-            if (bolgeId != null)
-            {
-                HedefBolge = await _context.Bolgeler.FindAsync(bolgeId.Value);
-            }
+            await SayfaVerisiniYukle(bolgeId);
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        // Form bölgeId'li adrese gönderildiği için (?bolgeId=3) hata durumunda da aynı mahalle korunur
+        public async Task<IActionResult> OnPostAsync(int? bolgeId)
         {
+            await SayfaVerisiniYukle(bolgeId);
+
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -55,6 +60,12 @@ namespace PatiDuragi.Pages.Noktalar
 
             TempData["Mesaj"] = $"\"{YeniNokta.Ad}\" noktası eklendi ({bolge.TamAd}).";
             return RedirectToPage("Detay", new { id = YeniNokta.Id });
+        }
+
+        private async Task SayfaVerisiniYukle(int? bolgeId)
+        {
+            Bolgeler = await _context.Bolgeler.OrderBy(b => b.Mahalle).ToListAsync();
+            HedefBolge = Bolgeler.FirstOrDefault(b => b.Id == bolgeId);
         }
     }
 }

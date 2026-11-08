@@ -18,7 +18,7 @@
         {
             <div class="alert alert-light border small py-2">
                 <i class="bi bi-map text-danger"></i> <strong>@Model.HedefBolge.TamAd</strong> için nokta ekliyorsunuz.
-                Koordinat bu mahallenin sınırı içinde olmalı.
+                Harita bu mahalleye odaklandı; konumu kalın kırmızı çizginin içinden seçin.
             </div>
         }
         <partial name="_NoktaFormu" for="YeniNokta" />
@@ -31,4 +31,9 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        konumSecici("konum-harita",
+            @Json.Serialize(Model.Bolgeler.Select(b => new { b.Id, b.Mahalle, b.Ilce, b.Sinir })),
+            @Json.Serialize(Model.HedefBolge?.Id));
+    </script>
 }
